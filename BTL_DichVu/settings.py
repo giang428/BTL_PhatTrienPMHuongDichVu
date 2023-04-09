@@ -26,7 +26,8 @@ SECRET_KEY = "django-insecure-toj*uuvtrcawoomo57-a@_^-w8xys!3om80d@n#v#0ynv%=1)!
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '192.168.0.108'
+    '192.168.0.108',
+    'giangndt428.pythonanywhere.com'
 ]
 
 
@@ -39,13 +40,15 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "rest_framework",
+    'rest_framework',
+    'corsheaders',
     'user',
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -73,18 +76,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "BTL_DichVu.wsgi.application"
 
-
+CORS_ALLOW_ALL_ORIGINS = True
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "watch_movies",
-        "USER": "root",
-        "PASSWORD": "123456",
-        "HOST": "",
-        "PORT": ""
+        "NAME": "giangndt428$watch_movies",
+        "USER": "giangndt428",
+        "PASSWORD": "Vaicalon428",
+        "HOST": "giangndt428.mysql.pythonanywhere-services.com"
     }
 }
 
