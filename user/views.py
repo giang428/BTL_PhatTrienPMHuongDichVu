@@ -29,8 +29,8 @@ def register_user(request):
     else:
         if user:
             user.save()#{"id":get_id_by_username_password(user.username,user.password),"username":user.username,"password":user.password}}
-                    
-            return Response({"message":"Successfully"},status=status.HTTP_201_CREATED)
+
+            return Response({"message":"Successfully","id_user":user.id_user},status=status.HTTP_201_CREATED)
         return Response({"message":"Failded"},status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
@@ -41,14 +41,20 @@ def update_vip_user(request,id):
         u.save()
         return Response({"message":"Successfully"},status=status.HTTP_205_RESET_CONTENT)
     return Response({"message":"Error update"},status=status.HTTP_400_BAD_REQUEST)
-
+@api_view(['GET'])
+def get_users(request):
+    data = User.objects.all()
+    if data:
+        list_user = list(data.values())
+        return Response(list_user,status=status.HTTP_200_OK)
+    return Response({"message":"Failed fetching data from server"})
 @api_view(['POST'])
 def login(request):
-    data=request.GET 
+    data=request.GET
     uname=data.get('username')
     passw=data.get('password')
     listU=User.objects.all()
     for u in listU:
         if u.username==uname and u.password==passw:
-            return Response({"data":{"id":u.id_user,"username":u.username,"password":u.password},"message":"Login Success"},status=status.HTTP_200_OK)
+            return Response({"data":{"id":u.id_user,"username":u.username,"password":u.password,"is_vip":u.is_vip},"message":"Login Success"},status=status.HTTP_200_OK)
     return Response({"data":{"id":None,"username":None,"password":None},"message":"Login Failed"},status=status.HTTP_400_BAD_REQUEST)
