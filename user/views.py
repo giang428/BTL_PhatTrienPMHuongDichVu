@@ -1,5 +1,7 @@
 from django.shortcuts import render
-
+from history.models import History
+from django.db.models import Q
+import datetime
 # Create your views here.
 from rest_framework.response import Response
 from rest_framework import status
@@ -28,19 +30,35 @@ def register_user(request):
         return Response({"message":"Invalid"})
     else:
         if user:
+            # hist=History(exp_vip=datetime.datetime.now(),user=user)
             user.save()#{"id":get_id_by_username_password(user.username,user.password),"username":user.username,"password":user.password}}
-
+            # hist.save()
             return Response({"message":"Successfully","id_user":user.id_user},status=status.HTTP_201_CREATED)
         return Response({"message":"Failded"},status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
-def update_vip_user(request,id):
-    u=User.objects.get(id_user=id)
-    if u and u.is_vip==False:
-        u.set_is_vip(True)
-        u.save()
-        return Response({"message":"Successfully"},status=status.HTTP_205_RESET_CONTENT)
-    return Response({"message":"Error update"},status=status.HTTP_400_BAD_REQUEST)
+def update_user(request,id):
+    user=User.objects.get(id_user=id)
+    # full_name=models.CharField(max_length=200,null=True)
+    # address=models.CharField(max_length=200,null=True)
+    # phone=models.CharField(max_length=200,null=True)
+    # gender=models.CharField(max_length=200,null=True)
+    # role=models.CharField(max_length=200,default="member")
+    if user:
+        if request.GET.get('full_name'):
+            user.set_fullname(request.GET.get('full_name'))
+        if request.GET.get('role'):
+            user.set_role(request.GET.get('role'))
+        if request.GET.get('address'):
+            user.set_address(request.GET.get('address'))
+        if request.GET.get('phone'):
+            user.set_phone(request.GET.get('phone'))
+        if request.GET.get('gender'):
+            user.set_gender(request.GET.get('gender'))
+        
+        user.save()
+        return Response({"message":"Successfully updated"},status=status.HTTP_202_ACCEPTED)
+    return Response({"message":"Failed"},status=status.HTTP_400_BAD_REQUEST)
 @api_view(['GET'])
 def get_users(request):
     data = User.objects.all()
@@ -48,6 +66,18 @@ def get_users(request):
         list_user = list(data.values())
         return Response(list_user,status=status.HTTP_200_OK)
     return Response({"message":"Failed fetching data from server"})
+@api_view(['PUT'])
+def update_vip_user(request):
+    id_user=request.GET.get('user_id')
+    is_vip=request.GET.get('is_vip')
+    user=User.objects.get(id_user=id_user)
+    if user and is_vip:
+        user.set_is_vip(is_vip)
+        user.save()
+        hist=History(exp_vip=datetime.datetime.now(),is_vip=is_vip,user=user)
+        hist.save()
+        return Response({"message": "Success"},status=status.HTTP_202_ACCEPTED)
+    return Response({"message": "Failed"},status=status.HTTP_400_BAD_REQUEST)
 @api_view(['POST'])
 def login(request):
     data=request.GET
@@ -56,5 +86,6 @@ def login(request):
     listU=User.objects.all()
     for u in listU:
         if u.username==uname and u.password==passw:
-            return Response({"data":{"id":u.id_user,"username":u.username,"password":u.password,"is_vip":u.is_vip},"message":"Login Success"},status=status.HTTP_200_OK)
-    return Response({"data":{"id":None,"username":None,"password":None},"message":"Login Failed"},status=status.HTTP_400_BAD_REQUEST)
+            # hist=History.objects.get(Q(user_id=u.id_user) & Q(is_active=True))
+            return Response({"data":{"id":u.id_user,"username":u.username,"password":u.password,"full_name":u.full_name,"address":u.address,"phone":u.phone,"gender":u.gender,"role":u.role,"is_vip":u.is_vip},"message":"Login Success"},status=status.HTTP_200_OK)
+    return Response({"data":{"id":None,"username":None,"password":None,"full_name":None,"address":None,"phone":None,"gender":None,"role":None,"is_vip":None},"message":"Login Failed"},status=status.HTTP_400_BAD_REQUEST)

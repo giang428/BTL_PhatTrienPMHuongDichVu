@@ -25,10 +25,11 @@ SECRET_KEY = "django-insecure-toj*uuvtrcawoomo57-a@_^-w8xys!3om80d@n#v#0ynv%=1)!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    '192.168.0.108',
-    'giangndt428.pythonanywhere.com'
-]
+# ALLOWED_HOSTS = [
+#     '127.0.0.1'
+#     '192.168.0.108',
+#     'giangndt428.pythonanywhere.com'
+# ]
 
 
 # Application definition
@@ -41,8 +42,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'rest_framework',
-    'corsheaders',
+    # 'corsheaders',
     'user',
+    'history',
 ]
 
 MIDDLEWARE = [
@@ -83,10 +85,11 @@ CORS_ALLOW_ALL_ORIGINS = True
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "giangndt428$watch_movies",
-        "USER": "giangndt428",
-        "PASSWORD": "Vaicalon428",
-        "HOST": "giangndt428.mysql.pythonanywhere-services.com"
+        "NAME": "watch_movies",
+        "USER": "root",
+        "PASSWORD": "123456",
+        "HOST": "",
+        "PORT": "",
     }
 }
 
