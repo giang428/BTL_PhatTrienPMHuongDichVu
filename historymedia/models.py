@@ -3,7 +3,7 @@ from user.models import User
 # Create your models here.
 class HistoryMedia(models.Model):
     id=models.AutoField(primary_key=True)
-    id_media=models.IntegerField()
+    id_media=models.CharField(max_length=200)
     user=models.ForeignKey(User, on_delete=models.CASCADE)
     type_media=models.IntegerField()
     day_watch=models.DateTimeField() 
