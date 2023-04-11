@@ -33,7 +33,7 @@ def register_user(request):
             # hist=History(exp_vip=datetime.datetime.now(),user=user)
             user.save()#{"id":get_id_by_username_password(user.username,user.password),"username":user.username,"password":user.password}}
             # hist.save()
-            return Response({"message":"Successfully","id_user":user.id_user},status=status.HTTP_201_CREATED)
+            return Response({"message":"Success","id_user":user.id_user},status=status.HTTP_201_CREATED)
         return Response({"message":"Failded"},status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
@@ -57,7 +57,7 @@ def update_user(request,id):
             user.set_gender(request.GET.get('gender'))
         
         user.save()
-        return Response({"message":"Successfully updated"},status=status.HTTP_202_ACCEPTED)
+        return Response({"message":"Success"},status=status.HTTP_202_ACCEPTED)
     return Response({"message":"Failed"},status=status.HTTP_400_BAD_REQUEST)
 @api_view(['GET'])
 def get_users(request):
@@ -68,7 +68,7 @@ def get_users(request):
     return Response({"message":"Failed fetching data from server"})
 @api_view(['PUT'])
 def update_vip_user(request):
-    id_user=request.GET.get('user_id')
+    id_user=request.GET.get('is_user')
     is_vip=request.GET.get('is_vip')
     user=User.objects.get(id_user=id_user)
     if user and is_vip:
@@ -87,5 +87,5 @@ def login(request):
     for u in listU:
         if u.username==uname and u.password==passw:
             # hist=History.objects.get(Q(user_id=u.id_user) & Q(is_active=True))
-            return Response({"data":{"id":u.id_user,"username":u.username,"password":u.password,"full_name":u.full_name,"address":u.address,"phone":u.phone,"gender":u.gender,"role":u.role,"is_vip":u.is_vip},"message":"Login Success"},status=status.HTTP_200_OK)
-    return Response({"data":{"id":None,"username":None,"password":None,"full_name":None,"address":None,"phone":None,"gender":None,"role":None,"is_vip":None},"message":"Login Failed"},status=status.HTTP_400_BAD_REQUEST)
+            return Response({"data":{"id":u.id_user,"username":u.username,"password":u.password,"full_name":u.full_name,"address":u.address,"phone":u.phone,"gender":u.gender,"role":u.role,"is_vip":u.is_vip},"message":"Success"},status=status.HTTP_200_OK)
+    return Response({"data":{"id":None,"username":None,"password":None,"full_name":None,"address":None,"phone":None,"gender":None,"role":None,"is_vip":None},"message":"Failed"},status=status.HTTP_400_BAD_REQUEST)

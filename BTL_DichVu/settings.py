@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     # 'corsheaders',
     'user',
     'history',
+    'mediareaction',
+    'historymedia',
 ]
 
 MIDDLEWARE = [
