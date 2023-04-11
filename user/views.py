@@ -68,7 +68,7 @@ def get_users(request):
     return Response({"message":"Failed fetching data from server"})
 @api_view(['PUT'])
 def update_vip_user(request):
-    id_user=request.GET.get('is_user')
+    id_user=request.GET.get('id_user')
     is_vip=request.GET.get('is_vip')
     user=User.objects.get(id_user=id_user)
     if user and is_vip:
