@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from .models import MediaReaction
 from user.models import User
+from historymedia.models import HistoryMedia
 # Create your views here.
 
 @api_view(['POST'])
@@ -31,14 +32,22 @@ def get_media_reaction(request):
     id_user=request.GET.get('id_user')
     user=User.objects.get(id_user=id_user)
     if id_media and user:
+        histMedia=HistoryMedia.objects.filter(id_media=id_media)
         listLikeMediaReaction=MediaReaction.objects.filter(Q(id_media=id_media) & Q(type_reaction=1))
         listDisLikeMediaReaction=MediaReaction.objects.filter(Q(id_media=id_media) & Q(type_reaction=2))
         media_user_reaction=MediaReaction.objects.filter(Q(id_media=id_media) & Q(user=user))
         if media_user_reaction:
-            return Response({"id_mreaction":media_user_reaction[0].id_mreaction,"favorite":media_user_reaction[0].type_favorite,"reactionUser":media_user_reaction[0].type_reaction,"amountLike":len(listLikeMediaReaction),"amountDisLike":len(listDisLikeMediaReaction)},status=status.HTTP_200_OK)
+            return Response({"id_mreaction":media_user_reaction[0].id_mreaction,"favorite":media_user_reaction[0].type_favorite,"reactionUser":media_user_reaction[0].type_reaction,"amountLike":len(listLikeMediaReaction),"amountDisLike":len(listDisLikeMediaReaction),"countView":len(histMedia)},status=status.HTTP_200_OK)
         return Response({"id_mreaction":-1,"favorite":0,"reactionUser":0,"amountLike":len(listLikeMediaReaction),"amountDisLike":len(listDisLikeMediaReaction)},status=status.HTTP_200_OK)
-    return Response({"id_mreaction":-1,"favorite":-1,"reactionUser":-1,"amountLike":-1,"amountDisLike":-1},status=status.HTTP_400_BAD_REQUEST)
+    return Response({"id_mreaction":-1,"favorite":-1,"reactionUser":-1,"amountLike":-1,"amountDisLike":-1,"countView":len(histMedia)},status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+def thongke_media_byid(request,id_media):
+    histMedia=HistoryMedia.objects.filter(id_media=id_media)
+    listLikeMediaReaction=MediaReaction.objects.filter(Q(id_media=id_media) & Q(type_reaction=1))
+    listDisLikeMediaReaction=MediaReaction.objects.filter(Q(id_media=id_media) & Q(type_reaction=2))
+    return Response({"id_media":id_media,"countView":len(histMedia),"countLike":len(listLikeMediaReaction),"countDisLike":len(listDisLikeMediaReaction),"countViewApp":len(HistoryMedia.objects.all())},status=status.HTTP_200_OK)
+    
 @api_view(['GET'])
 def getListFavoriteMediaReaction(request,id_user):
     user=User.objects.get(id_user=id_user)

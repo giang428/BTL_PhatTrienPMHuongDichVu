@@ -2,6 +2,7 @@ from django.shortcuts import render
 from history.models import History
 from django.db.models import Q
 import datetime
+import json
 # Create your views here.
 from rest_framework.response import Response
 from rest_framework import status
@@ -71,6 +72,7 @@ def update_vip_user(request):
     id_user=request.GET.get('id_user')
     is_vip=request.GET.get('is_vip')
     user=User.objects.get(id_user=id_user)
+    
     if user and is_vip:
         user.set_is_vip(is_vip)
         user.save()
@@ -89,3 +91,16 @@ def login(request):
             # hist=History.objects.get(Q(user_id=u.id_user) & Q(is_active=True))
             return Response({"data":{"id":u.id_user,"username":u.username,"password":u.password,"full_name":u.full_name,"address":u.address,"phone":u.phone,"gender":u.gender,"role":u.role,"is_vip":u.is_vip},"message":"Success"},status=status.HTTP_200_OK)
     return Response({"data":{"id":None,"username":None,"password":None,"full_name":None,"address":None,"phone":None,"gender":None,"role":None,"is_vip":None},"message":"Failed"},status=status.HTTP_400_BAD_REQUEST)
+@api_view(['GET'])
+def getcountvip(request):
+    listU=User.objects.all()
+    countVip=0
+    for u in listU:
+        if u.is_vip=="1" or u.is_vip=="2":
+            countVip+=1
+    return Response({"countVip":countVip},status=status.HTTP_200_OK)
+@api_view(['GET'])
+def user_info_by_id(request,id_user):
+    user=User.objects.get(id_user=id_user)
+    
+    return Response({"data":{"id":id_user,"username":user.username,"password":user.password,"full_name":user.full_name,"address":user.address,"phone":user.phone,"gender":user.gender,"role":user.role,"is_vip":user.is_vip}},status=status.HTTP_200_OK)
