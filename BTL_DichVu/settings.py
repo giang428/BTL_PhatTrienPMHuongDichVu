@@ -23,13 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-toj*uuvtrcawoomo57-a@_^-w8xys!3om80d@n#v#0ynv%=1)!"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-# ALLOWED_HOSTS = [
-#     '127.0.0.1'
-#     '192.168.0.108',
-#     'giangndt428.pythonanywhere.com'
-# ]
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'giangndt428.pythonanywhere.com'
+]
 
 
 # Application definition
@@ -42,7 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'rest_framework',
-    # 'corsheaders',
+    'corsheaders',
     'user',
     'history',
     'mediareaction',
@@ -87,11 +86,10 @@ CORS_ALLOW_ALL_ORIGINS = True
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "watch_movies",
-        "USER": "root",
-        "PASSWORD": "123456",
-        "HOST": "",
-        "PORT": "",
+        "NAME": "giangndt428$watch_movies",
+        "USER": "giangndt428",
+        "PASSWORD": "Vaicalon428",
+        "HOST": "giangndt428.mysql.pythonanywhere-services.com"
     }
 }
 
@@ -131,6 +129,7 @@ APPEND_SLASH=False
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = "/home/giangndt428/.local/lib/python3.10/site-packages/rest_framework/static/rest_framework/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

@@ -3,7 +3,7 @@ from user.models import User
 # Create your models here.
 
 class MediaReaction(models.Model):
-    id_mreaction=models.IntegerField(primary_key=True)
+    id_mreaction=models.AutoField(primary_key=True)
     id_media=models.CharField(max_length=200)
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     day_reaction=models.DateField()
