@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'history',
     'mediareaction',
     'historymedia',
+    'channelfollow' ,
 ]
 
 MIDDLEWARE = [

@@ -38,7 +38,7 @@ def get_media_reaction(request):
         media_user_reaction=MediaReaction.objects.filter(Q(id_media=id_media) & Q(user=user))
         if media_user_reaction:
             return Response({"id_mreaction":media_user_reaction[0].id_mreaction,"favorite":media_user_reaction[0].type_favorite,"reactionUser":media_user_reaction[0].type_reaction,"amountLike":len(listLikeMediaReaction),"amountDisLike":len(listDisLikeMediaReaction),"countView":len(histMedia)},status=status.HTTP_200_OK)
-        return Response({"id_mreaction":-1,"favorite":0,"reactionUser":0,"amountLike":len(listLikeMediaReaction),"amountDisLike":len(listDisLikeMediaReaction)},status=status.HTTP_200_OK)
+        return Response({"id_mreaction":-1,"favorite":0,"reactionUser":0,"amountLike":len(listLikeMediaReaction),"amountDisLike":len(listDisLikeMediaReaction),"countView":len(histMedia)},status=status.HTTP_200_OK)
     return Response({"id_mreaction":-1,"favorite":-1,"reactionUser":-1,"amountLike":-1,"amountDisLike":-1,"countView":len(histMedia)},status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
