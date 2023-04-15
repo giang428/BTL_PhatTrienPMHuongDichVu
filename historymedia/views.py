@@ -46,8 +46,12 @@ def get_history_media(request):
     if user and id_media and type_media:
         hist_media = HistoryMedia.objects.filter(
             Q(id_media=id_media) & Q(type_media=type_media) & Q(user=user))
-        data = hist_media[-1].values()
-        return Response({"data": data, "code": 200, "message": "Success"}, status=status.HTTP_200_OK)
+        if hist_media:
+            datas=hist_media.values()
+            for data in datas:
+                data=data
+            return Response({"data": data, "code": 200, "message": "Success"}, status=status.HTTP_200_OK)
+        return Response({"data": [], "code": 200, "message": "Success"})
     return Response({"data": [], "code": 400, "message": "Error"})
 
 
