@@ -50,8 +50,9 @@ def thongke_media_byid(request,id_media):
     
 @api_view(['GET'])
 def getListFavoriteMediaReaction(request,id_user):
+    type_media=request.GET.get('type_media')
     user=User.objects.get(id_user=id_user)
-    listFavoriteMedia_User=MediaReaction.objects.filter(Q(user=user) & Q(type_favorite=1))
+    listFavoriteMedia_User=MediaReaction.objects.filter(Q(user=user) & Q(type_favorite=1) & Q(type_media=type_media))
     if listFavoriteMedia_User:
         return Response({"data":list(listFavoriteMedia_User.values())},status=status.HTTP_200_OK)
     return Response({"data":[]},status=status.HTTP_200_OK)
@@ -71,5 +72,4 @@ def update_media_reaction(request):
         return Response({"message":"Success"},status=status.HTTP_202_ACCEPTED)
     return Response({"message":"Failed"},status=status.HTTP_400_BAD_REQUEST)
         
-    
             
