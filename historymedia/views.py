@@ -25,8 +25,9 @@ def post_history_media(request):
 
 @api_view(['GET'])
 def get_list_history_media_by_userid(request,id_user):
+    type_media=request.GET.get('type_media')
     user=User.objects.get(id_user=id_user)
-    list_histMedia=HistoryMedia.objects.filter(user=user)
+    list_histMedia=HistoryMedia.objects.filter(Q(user=user) & Q(type_media=type_media))
     if list_histMedia:
         return Response({"data":list(list_histMedia.values())},status=status.HTTP_200_OK)
     return Response({"data":[]},status=status.HTTP_200_OK)

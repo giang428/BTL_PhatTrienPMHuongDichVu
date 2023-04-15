@@ -104,3 +104,4 @@ def user_info_by_id(request,id_user):
     user=User.objects.get(id_user=id_user)
     
     return Response({"data":{"id":id_user,"username":user.username,"password":user.password,"full_name":user.full_name,"address":user.address,"phone":user.phone,"gender":user.gender,"role":user.role,"is_vip":user.is_vip}},status=status.HTTP_200_OK)
+
