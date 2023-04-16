@@ -39,7 +39,7 @@ def register_user(request):
 
 @api_view(['PUT'])
 def update_user(request,id):
-    user=User.objects.get(id_user=id)
+    user=User.objects.filter(id_user=id)
     # full_name=models.CharField(max_length=200,null=True)
     # address=models.CharField(max_length=200,null=True)
     # phone=models.CharField(max_length=200,null=True)
@@ -47,15 +47,20 @@ def update_user(request,id):
     # role=models.CharField(max_length=200,default="member")
     if user:
         if request.GET.get('full_name'):
-            user.set_fullname(request.GET.get('full_name'))
+            user.update(full_name = request.GET.get('full_name'))
         if request.GET.get('role'):
-            user.set_role(request.GET.get('role'))
+            user.update(role = request.GET.get('role'))
         if request.GET.get('address'):
-            user.set_address(request.GET.get('address'))
+            user.update(address = request.GET.get('address'))
         if request.GET.get('phone'):
-            user.set_phone(request.GET.get('phone'))
+            user.update(phone = request.GET.get('phone'))
         if request.GET.get('gender'):
+<<<<<<< HEAD
             user.set_gender(request.GET.get('gender')) 
+=======
+            user.update(gender = request.GET.get('gender'))
+        
+>>>>>>> d095c09f14f4083a95d119d12ee19802b681cb7c
         user.save()
         return Response({"message":"Success"},status=status.HTTP_202_ACCEPTED)
     return Response({"message":"Failed"},status=status.HTTP_400_BAD_REQUEST)
