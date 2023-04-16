@@ -19,13 +19,3 @@ class User(models.Model):
         self.is_vip=is_vip
     def set_id(self,id):
         self.id_user =id
-    def set_fullname(self,fullname):
-        self.full_name=fullname
-    def set_address(self,address):
-        self.address=address
-    def set_phone(self,phone):
-        self.phone=phone
-    def set_gender(self,gender):
-        self.gender=gender
-    def set_role(self,role):
-        self.role=role
