@@ -55,8 +55,7 @@ def update_user(request,id):
         if request.GET.get('phone'):
             user.set_phone(request.GET.get('phone'))
         if request.GET.get('gender'):
-            user.set_gender(request.GET.get('gender'))
-        
+            user.set_gender(request.GET.get('gender')) 
         user.save()
         return Response({"message":"Success"},status=status.HTTP_202_ACCEPTED)
     return Response({"message":"Failed"},status=status.HTTP_400_BAD_REQUEST)
