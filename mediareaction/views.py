@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from django.db.models import Q
 import datetime
@@ -40,7 +41,14 @@ def get_media_reaction(request):
             return Response({"id_mreaction":media_user_reaction[0].id_mreaction,"favorite":media_user_reaction[0].type_favorite,"reactionUser":media_user_reaction[0].type_reaction,"amountLike":len(listLikeMediaReaction),"amountDisLike":len(listDisLikeMediaReaction),"countView":len(histMedia)},status=status.HTTP_200_OK)
         return Response({"id_mreaction":-1,"favorite":0,"reactionUser":0,"amountLike":len(listLikeMediaReaction),"amountDisLike":len(listDisLikeMediaReaction),"countView":len(histMedia)},status=status.HTTP_200_OK)
     return Response({"id_mreaction":-1,"favorite":-1,"reactionUser":-1,"amountLike":-1,"amountDisLike":-1,"countView":len(histMedia)},status=status.HTTP_400_BAD_REQUEST)
-
+@api_view(['GET'])
+def thongke_app(request):
+    listLikeapp=MediaReaction.objects.filter(Q(type_reaction=1))
+    listDisLikeapp=MediaReaction.objects.filter(Q(type_reaction=2))
+    listfavoriteapp=MediaReaction.objects.filter(Q(type_favorite=1))
+    listviewapp=HistoryMedia.objects.all()
+    data={"countLikeApp":len(listLikeapp),"countDisLikeApp":len(listDisLikeapp),"countViewApp":len(listviewapp),"countFavoriteApp":len(listfavoriteapp)}
+    return Response({"data":data,"code":200,"message":"Success"},status=status.HTTP_200_OK)
 @api_view(['GET'])
 def thongke_media_byid(request,id_media):
     histMedia=HistoryMedia.objects.filter(id_media=id_media)
