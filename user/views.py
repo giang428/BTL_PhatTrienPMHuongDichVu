@@ -55,13 +55,9 @@ def update_user(request,id):
         if request.GET.get('phone'):
             user.update(phone = request.GET.get('phone'))
         if request.GET.get('gender'):
-<<<<<<< HEAD
-            user.set_gender(request.GET.get('gender')) 
-=======
             user.update(gender = request.GET.get('gender'))
-        
->>>>>>> d095c09f14f4083a95d119d12ee19802b681cb7c
-        user.save()
+        for i in user:
+            i.save()
         return Response({"message":"Success"},status=status.HTTP_202_ACCEPTED)
     return Response({"message":"Failed"},status=status.HTTP_400_BAD_REQUEST)
 @api_view(['GET'])
