@@ -18,12 +18,21 @@ def getlistHistory(request,id):
         data=list(listHist.values())
         return Response({"data":data,"message":"Success","code":status.HTTP_200_OK},status=status.HTTP_200_OK)
     return Response({"data":[],"message":"Failed","code":status.HTTP_400_BAD_REQUEST},status=status.HTTP_400_BAD_REQUEST)
-
-@api_view(['POST'])
+@api_view(['GET'])
+def stat_all(request):
+    
+    resp = []
+    hist = History.objects.all()
+    if hist:
+        d = hist.values()
+        for i in d:
+            data={'name':User.objects.get(id_user=int(i['user_id'])).full_name,
+                  'purchase_date':i['exp_vip'],
+                  'type_vip':i['is_vip']}
+            resp.append(data)
+    return Response({"data":resp})
+@api_view(['GET'])
 def stat(request):
-    # is_vip = 1 : 1 month
-    # is_vip = 2 : 1 year
-    # params: 
     hist = History.objects.all()
     if hist:
         data = hist.values()
@@ -102,7 +111,7 @@ def stat(request):
                                     "message":"Success"})
             else:        #if not present period params
                 vip_1 = sum(1 for dat in data if dat['is_vip'] == 1)
-                vip_2 = sum(1 for dat in data if dat['is_vip'] == 2)  
+                vip_2 = sum(1 for dat in data if dat['is_vip'] == 2) 
                 return Response({
                         "data":data,
                         "statistic":{
